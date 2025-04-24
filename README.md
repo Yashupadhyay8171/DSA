@@ -1,2 +1,2 @@
-# LeetCode
+# DSA
 LeetCode and GfG 
