@@ -10,11 +10,12 @@
  */
 class Solution {
 public:
-    int find(ListNode* head){
+    int getlen(ListNode* head){
+        ListNode* temp=head;
         int c=0;
-        while(head!=NULL){
+        while(temp!=NULL){
             c++;
-            head=head->next;
+            temp=temp->next;
         }
         return c;
     }
@@ -27,16 +28,16 @@ public:
             prev->next=curr->next;
         }
         n--;
+        return;
     }
     ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int len=getlen(head);
+        len-=n;
+        if(len==0){
+            return head->next;
+        }
         ListNode* prev=NULL;
         ListNode* curr=head;
-        if(curr->next == NULL && n==1){
-            return nullptr;
-        }
-        else if(find(head)==n){
-            return curr->next;
-        }
         solve(prev,curr,n);
         return head;
     }
