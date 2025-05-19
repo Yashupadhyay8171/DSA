@@ -1,36 +1,80 @@
 class Solution {
 public:
-    const int mod = 1e9 + 7;
-    int dp[1005][250], rowValid[250][250];
-    vector<int> good, pattern [250];
-    int colorTheGrid(int m, int n) {
-        int total = pow(3, m);
+    const static int MOD = 1e9 + 7;
+    int m, n;
+    vector<int> validMasks;
+    unordered_map<int, vector<int>> nextMasks;
+    unordered_map<long long, int> memo;
 
-        for (int i = 0; i < total; i++) {
-            int val = i, valid = 1;
-            for (int j = 0; j < m; j++) 
-                pattern[i].push_back(val % 3), val /= 3;
-            for (int j = 1; j < m; j++) 
-                if (pattern[i][j] == pattern[i][j - 1]) valid = 0;
-            if (valid) good.push_back(i);
+    // Check if two columns (represented as integers) are compatible (no same color in same row)
+    bool isCompatible(int a, int b) {
+        for (int i = 0; i < m; ++i) {
+            if ((a % 3) == (b % 3)) {
+                return false;
+            }
+            a /= 3;
+            b /= 3;
         }
-        for (int i : good) dp[1][i] = 1;
+        return true;
+    }
 
-        for (int i : good) {
-            for (int j : good) {
-                rowValid[i][j] = 1;
-                for (int k = 0; k < m; k++) 
-                    if (pattern[i][k] == pattern[j][k]) 
-                        rowValid[i][j] = 0;
+    // Check if a column (represented as integer) is valid (no two adjacent cells same)
+    bool isValid(int mask) {
+        int prev = -1;
+        for (int i = 0; i < m; ++i) {
+            int cur = mask % 3;
+            if (cur == prev) {
+                return false;
+            }
+            prev = cur;
+            mask /= 3;
+        }
+        return true;
+    }
+
+    void generateValidMasks() {
+        int maxMask = pow(3, m);
+        for (int mask = 0; mask < maxMask; ++mask) {
+            if (isValid(mask)) {
+                validMasks.push_back(mask);
             }
         }
 
-        for (int col = 2; col <= n; col++)
-            for (int i : good)
-                for (int j : good)
-                    if (rowValid[i][j]) 
-                        dp[col][i] = (dp[col][i] + dp[col - 1][j]) % mod;
-                        
-        return accumulate(dp[n], dp[n] + total, 0L) % mod;
+        for (int mask1 : validMasks) {
+            for (int mask2 : validMasks) {
+                if (isCompatible(mask1, mask2)) {
+                    nextMasks[mask1].push_back(mask2);
+                }
+            }
+        }
+    }
+
+    int dfs(int col, int prevMask) {
+        if (col == n)
+            return 1;
+
+        long long key = ((long long)col << 10) | prevMask;
+        if (memo.count(key)) {
+            return memo[key];
+        }
+
+        int res = 0;
+        for (int next : nextMasks[prevMask]) {
+            res = (res + dfs(col + 1, next)) % MOD;
+        }
+
+        return memo[key] = res;
+    }
+
+    int colorTheGrid(int m_, int n_) {
+        m = m_;
+        n = n_;
+        generateValidMasks();
+
+        int res = 0;
+        for (int mask : validMasks) {
+            res = (res + dfs(1, mask)) % MOD;
+        }
+        return res;
     }
 };
