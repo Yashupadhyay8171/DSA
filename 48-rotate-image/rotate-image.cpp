@@ -2,7 +2,7 @@ class Solution {
 public:
     void rotate(vector<vector<int>>& arr) {
         for(int i=0;i<arr.size();i++){
-            for(int j=0;j<i;j++){
+            for(int j=i+1;j<arr[i].size();j++){
                 swap(arr[i][j],arr[j][i]);
             }
         }
