@@ -1,14 +1,13 @@
 class Solution {
 public:
-    void rotate(vector<vector<int>>& matrinx) {
-    for(int i=0;i<matrinx.size();i++){
-    for(int j=i;j<matrinx.size();j++){
-            swap(matrinx[i][j],matrinx[j][i]);
+    void rotate(vector<vector<int>>& arr) {
+        for(int i=0;i<arr.size();i++){
+            for(int j=0;j<i;j++){
+                swap(arr[i][j],arr[j][i]);
+            }
         }
-    }
-    for(int i=0;i<matrinx.size();i++){
-        reverse(matrinx[i].begin(),matrinx[i].end());
-    }
-    return;
+        for(int i=0;i<arr.size();i++){
+            reverse(arr[i].begin(),arr[i].end());
+        }
     }
 };
