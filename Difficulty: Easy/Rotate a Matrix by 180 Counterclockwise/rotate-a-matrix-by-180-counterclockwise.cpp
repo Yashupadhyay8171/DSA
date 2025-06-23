@@ -1,6 +1,13 @@
 
 class Solution {
   public:
+    void reverse1(vector<int>&arr){
+        int i=0;
+        int j=arr.size()-1;
+        while(i<j){
+            swap(arr[i++],arr[j--]);
+        }
+    }
     void rotateMatrix(vector<vector<int>>& matrix) {
         // Code here
         int ROWS=matrix.size();
@@ -10,10 +17,8 @@ class Solution {
             swap(matrix[i][j], matrix[ROWS - 1 - i][j]);
         }
     }
-    for (int i = 0; i < ROWS; ++i) {
-        for (int j = 0; j < COLS / 2; ++j) {
-            swap(matrix[i][j], matrix[i][COLS - 1 - j]);
-        }
+    for(int i=0;i<matrix.size();i++){
+        reverse1(matrix[i]);
     }
     }
 };
