@@ -5,15 +5,12 @@ public:
         string ans="";
         while(true){
             char curr=0;
-            for(auto s:strs){
-                if(i>=s.size()){
-                    curr=0;
-                    break;
-                }
+            for(auto it:strs){
+                if(i>=it.size()) return ans;
                 if(curr==0){
-                    curr=s[i];
+                    curr+=it[i];
                 }
-                else if(s[i]!=curr){
+                else if(curr!=it[i]){
                     curr=0;
                     break;
                 }
@@ -21,7 +18,7 @@ public:
             if(curr==0){
                 break;
             }
-            ans.push_back(curr);
+            ans+=curr;
             i++;
         }
         return ans;
