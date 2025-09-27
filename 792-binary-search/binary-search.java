@@ -4,7 +4,6 @@ class Solution {
         int e=arr.length-1;
         int ans=-1;
         while(s<=e){
-            if(s==e && arr[s]==target) return s;
             int mid=(s+e)>>1;
             if(arr[mid]==target){
                 return mid;
