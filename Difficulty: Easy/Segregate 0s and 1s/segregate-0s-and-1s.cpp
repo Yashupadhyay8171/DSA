@@ -5,13 +5,11 @@ class Solution {
         int i=0;
         int j=arr.size()-1;
         int index=0;
-        while(index<=j){
+        while(index<arr.size()){
             if(arr[index]==0){
-                swap(arr[i++],arr[index++]);
+                swap(arr[i++],arr[index]);
             }
-            else{
-                swap(arr[index],arr[j--]);
-            }
+            index++;
         }
         return;
     }
