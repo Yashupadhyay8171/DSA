@@ -1,9 +1,7 @@
-// User function Template for Java
-
 class Solution {
-    public static ArrayList<Integer> factorial(int n) {
+    public ArrayList<Integer> factorial(int n) {
         // code here
-        ArrayList<Integer>arr=new ArrayList<>();
+        ArrayList<Integer> arr=new ArrayList<>();
         arr.add(1);
         int carry=0;
         for(int i=2;i<=n;i++){
@@ -18,9 +16,6 @@ class Solution {
                 arr.add(carry%10);
                 carry/=10;
             }
-        }
-        while((arr.get(arr.size()-1))==0){
-            arr.remove(arr.size()-1);
         }
         Collections.reverse(arr);
         return arr;
